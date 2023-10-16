@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "dev": "ts-node-dev --cls --rs --ignore-watch node_modules src/app.ts"
     },
     "author": "",
     "license": "ISC",

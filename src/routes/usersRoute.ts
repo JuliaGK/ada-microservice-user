@@ -3,12 +3,12 @@ import { addUser } from "../controllers/usersController";
 
 const usersRouter = Router();
 
-usersRouter.get("/getEvents");
+usersRouter.get("/getUsers");
 
-usersRouter.post("/addEvent", addUser);
+usersRouter.post("/addUser", addUser);
 
-usersRouter.put("/updateEvent");
+usersRouter.put("/updateUser");
 
-usersRouter.delete("/deleteEvent");
+usersRouter.delete("/deleteUser");
 
 export default usersRouter;

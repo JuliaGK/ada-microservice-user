@@ -17,7 +17,7 @@ const createDbConnection = () => {
 const createTableUsers = () => {
     db.exec(`CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        nome VARCHAR(50),
+        nome VARCHAR(50)
     );
     `);
 };
