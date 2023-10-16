@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import { createDbConnection } from "./db/dbConfig";
+import usersRouter from "./routes/usersRoute";
 
 dotenv.config();
 
