@@ -1,5 +1,5 @@
 const sqlite3 = require("sqlite3").verbose();
-const filePath = "./src/db/events.db";
+const filePath = "./src/db/users.db";
 
 let db: any = null;
 
