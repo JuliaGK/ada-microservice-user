@@ -11,9 +11,22 @@ createDbConnection();
 const app = express();
 const port = process.env.PORT;
 
-app.use(express.json());
+const whitelist = ["http://localhost:4000"]; // assuming front-end application is running on localhost port 3000
 
-app.use(cors({ origin: ["http://localhost:4000"] }));
+const corsOptions = {
+    origin: function (origin: any, callback: any) {
+        console.log(origin);
+
+        if (whitelist.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
+};
+app.use(cors(corsOptions));
+
+app.use(express.json());
 
 app.use("/users", usersRouter);
 
