@@ -43,3 +43,5 @@ export const usersController = {
         }
     },
 };
+
+export { getUserHandler };
