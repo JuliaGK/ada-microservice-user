@@ -1,13 +1,13 @@
 import { Router } from "express";
-import { addUser, getUser } from "../controllers/usersController";
+import { usersController } from "../controllers/usersController";
 
 const usersRouter = Router();
 
 usersRouter.get("/getUsers");
 
-usersRouter.get("/:id", getUser);
+usersRouter.get("/:id", usersController.getUser);
 
-usersRouter.post("/addUser", addUser);
+usersRouter.post("/addUser", usersController.addUser);
 
 usersRouter.put("/updateUser");
 
