@@ -1,24 +1,13 @@
-const sqlite3 = require("sqlite3").verbose();
-const filePath = "./src/db/users.db";
+import sqlite3 from "sqlite3";
+import { open } from "sqlite";
 
-let db: any = null;
+const initializeDatabase = async () => {
+    const dbFilename = "./src/db/database.sqlite";
 
-const createDbConnection = () => {
-    db = new sqlite3.Database(filePath, (error: any) => {
-        if (error) {
-            return console.error(error.message);
-        }
+    return open({
+        filename: dbFilename,
+        driver: sqlite3.Database,
     });
-    console.log("Connection with SQLite has been estabilished");
-    createTableUsers();
-    return db;
 };
 
-const createTableUsers = () => {
-    db.exec(`CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        nome VARCHAR(50)
-    );
-    `);
-};
-export { createDbConnection, db };
+export { initializeDatabase };
