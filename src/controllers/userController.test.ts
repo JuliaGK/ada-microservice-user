@@ -1,4 +1,4 @@
-import { expect, test, beforeEach } from "vitest";
+import { expect, test, beforeEach, describe } from "vitest";
 import { initializeDatabase } from "../db/dbConfig";
 import { faker } from "@faker-js/faker";
 import User from "../models/User";
@@ -18,21 +18,28 @@ beforeEach(async () => {
     await db.run("DELETE FROM users");
 });
 
-test("test if i can get an user", async () => {
-    const nome = faker.lorem.words(3);
+describe("tests for getUser", () => {
+    test("test if i can get an user", async () => {
+        const nome = faker.lorem.words(3);
 
-    const userToCreate: User = {
-        id: faker.number.int().toString(),
-        nome,
-    };
-
-    await makeUser(userToCreate);
-
-    const user = await getUserHandler(userToCreate.id);
-
-    expect(user).toEqual(
-        expect.objectContaining({
+        const userToCreate: User = {
+            id: faker.number.int(),
             nome,
-        })
-    );
+        };
+
+        await makeUser(userToCreate);
+
+        const user = await getUserHandler(userToCreate.id);
+
+        expect(user).toEqual(
+            expect.objectContaining({
+                nome,
+            })
+        );
+    });
+
+    test("test if it returns an error when getting an invalid user", async () => {
+        const id = -1;
+        expect((await getUserHandler(id)).rejects.toBe);
+    });
 });

@@ -5,7 +5,7 @@ import createError from "http-errors";
 
 const dbPromise = initializeDatabase();
 
-const getUserHandler = async (id: string) => {
+const getUserHandler = async (id: number) => {
     const db = await dbPromise;
     const user = await db.get("SELECT * FROM users WHERE id= ?", id);
 
@@ -36,7 +36,7 @@ export const usersController = {
 
     getUser: async (req: Request, res: Response) => {
         try {
-            const user = await getUserHandler(req.params.id);
+            const user = await getUserHandler(Number(req.params.id));
             res.json(user);
         } catch (error) {
             res.status(404).send("user not found");
