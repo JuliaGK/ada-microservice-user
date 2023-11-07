@@ -16,21 +16,29 @@ const getUserHandler = async (id: number) => {
     }
 };
 
+export const addUserHandler = async (user: User) => {
+    const db = await dbPromise;
+
+    if (!user.nome) {
+        throw createError.BadRequest("Missing name propertie");
+    }
+
+    try {
+        const result = await db.run(
+            `INSERT INTO users (nome) VALUES (?)`,
+            user.nome
+        );
+        return result;
+    } catch (error) {
+        console.error("Error in addUser: ", error);
+        throw createError.InternalServerError();
+    }
+};
+
 export const usersController = {
     addUser: async (req: Request, res: Response) => {
-        const newUser: User = req.body;
-        const db = await initializeDatabase();
-
-        try {
-            await db.run(
-                `INSERT INTO users (nome)
-            VALUES (?)`,
-                newUser.nome
-            );
-        } catch (e) {
-            console.log(e);
-            res.status(400).end(e);
-        }
+        const user: User = req.body;
+        await addUserHandler(user);
         res.status(201).send("user added");
     },
 

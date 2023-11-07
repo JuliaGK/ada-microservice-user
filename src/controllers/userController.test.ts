@@ -1,9 +1,9 @@
 import { expect, test, beforeEach, describe } from "vitest";
 import { initializeDatabase } from "../db/dbConfig";
 import { faker } from "@faker-js/faker";
-import { NotFound } from "http-errors";
+import { NotFound, BadRequest } from "http-errors";
 import User from "../models/User";
-import { getUserHandler } from "./usersController";
+import { getUserHandler, addUserHandler } from "./usersController";
 
 const makeUser = async (user: User) => {
     const db = await initializeDatabase();
@@ -32,16 +32,36 @@ describe("tests for getUser", () => {
 
         const user = await getUserHandler(userToCreate.id);
 
-        expect(user).toEqual(
-            expect.objectContaining({
-                nome,
-            })
-        );
+        expect(user).toEqual(expect.objectContaining({ nome }));
     });
 
-    test("test if it returns an error when getting an invalid user", async () => {
+    test("test if it throws an error when getting an invalid user", async () => {
         const id = -1;
 
-        expect(getUserHandler(id)).rejects.toBeInstanceOf(NotFound);
+        await expect(getUserHandler(id)).rejects.toBeInstanceOf(NotFound);
+    });
+});
+
+describe("tests for addUser", () => {
+    test("test if i can add a user", async () => {
+        const userToAdd: User = {
+            id: faker.number.int(),
+            nome: faker.lorem.words(3),
+        };
+
+        const result = await addUserHandler(userToAdd);
+
+        expect(result).toBeTruthy();
+    });
+
+    test("test if it throws an error when adding a user whithout a valid name", async () => {
+        const invalidUserToAdd: User = {
+            id: faker.number.int(),
+            nome: "",
+        };
+
+        await expect(addUserHandler(invalidUserToAdd)).rejects.toBeInstanceOf(
+            BadRequest
+        );
     });
 });
