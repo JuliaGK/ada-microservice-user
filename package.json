@@ -6,7 +6,8 @@
     "scripts": {
         "dev": "ts-node-dev --cls --rs --ignore-watch node_modules src/app.ts",
         "migrate": "ts-node-dev src/db/applyMigrations.ts",
-        "migrate:test": "cross-env NODE_ENV=test ts-node src/db/applyMigrations.ts"
+        "migrate:test": "cross-env NODE_ENV=test ts-node src/db/applyMigrations.ts",
+        "test": "vitest"
     },
     "author": "",
     "license": "ISC",
@@ -22,6 +23,7 @@
         "@faker-js/faker": "^8.2.0",
         "@types/cors": "^2.8.15",
         "@types/express": "^4.17.19",
+        "@vitest/coverage-v8": "^0.34.6",
         "cross-env": "^7.0.3",
         "ts-node-dev": "^2.0.0",
         "typescript": "^5.2.2",
