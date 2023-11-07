@@ -9,7 +9,7 @@ const makeUser = async (user: User) => {
     const db = await initializeDatabase();
     const id = user.id ?? faker.number.int();
 
-    await db.run("INSERT INTO users (id, nome) VALUES (?, ?)", [id, user.nome]);
+    await db.run("INSERT INTO users (id, name) VALUES (?, ?)", [id, user.name]);
 };
 
 beforeEach(async () => {
@@ -21,18 +21,18 @@ beforeEach(async () => {
 
 describe("tests for getUser", () => {
     test("test if i can get an user", async () => {
-        const nome = faker.lorem.words(3);
+        const name = faker.lorem.words(3);
 
         const userToCreate: User = {
             id: faker.number.int(),
-            nome,
+            name: name,
         };
 
         await makeUser(userToCreate);
 
         const user = await getUserHandler(userToCreate.id);
 
-        expect(user).toEqual(expect.objectContaining({ nome }));
+        expect(user).toEqual(expect.objectContaining({ name }));
     });
 
     test("test if it throws an error when getting an invalid user", async () => {
@@ -46,7 +46,7 @@ describe("tests for addUser", () => {
     test("test if i can add a user", async () => {
         const userToAdd: User = {
             id: faker.number.int(),
-            nome: faker.lorem.words(3),
+            name: faker.lorem.words(3),
         };
 
         const result = await addUserHandler(userToAdd);
@@ -57,7 +57,7 @@ describe("tests for addUser", () => {
     test("test if it throws an error when adding a user whithout a valid name", async () => {
         const invalidUserToAdd: User = {
             id: faker.number.int(),
-            nome: "",
+            name: "",
         };
 
         await expect(addUserHandler(invalidUserToAdd)).rejects.toBeInstanceOf(
