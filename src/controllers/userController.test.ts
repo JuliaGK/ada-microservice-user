@@ -1,6 +1,7 @@
 import { expect, test, beforeEach, describe } from "vitest";
 import { initializeDatabase } from "../db/dbConfig";
 import { faker } from "@faker-js/faker";
+import { NotFound } from "http-errors";
 import User from "../models/User";
 import { getUserHandler } from "./usersController";
 
@@ -40,6 +41,7 @@ describe("tests for getUser", () => {
 
     test("test if it returns an error when getting an invalid user", async () => {
         const id = -1;
-        expect((await getUserHandler(id)).rejects.toBe);
+
+        expect(getUserHandler(id)).rejects.toBeInstanceOf(NotFound);
     });
 });
